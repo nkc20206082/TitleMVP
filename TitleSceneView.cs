@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class TitleSceneView : MonoBehaviour
 {
@@ -32,24 +31,24 @@ public class TitleSceneView : MonoBehaviour
         {
             if((int)selectnum == i)
             {
-                _Opacity(_TitleImgs[i]);
+                Opacity(_TitleImgs[i]);
             }
             else
             {
-                _Transparent(_TitleImgs[i]);
+                Transparent(_TitleImgs[i]);
             }
         }
 
     }
 
     //•s“§–¾
-    private void _Opacity(Image image)
+    private void Opacity(Image image)
     {
         image.color = Color.white;
     }
 
     //“§–¾
-    private void _Transparent(Image image)
+    private void Transparent(Image image)
     {
         image.color = Color.clear;
     }

@@ -5,26 +5,30 @@ using System;
 public class TitleSceneModel : MonoBehaviour
 {
     public int selectnum = 0;
-    private int _maxelement = 3;
+    private const int MAX_ELEMENT = 3;
 
     [SerializeField] GameStart gameStart;
     [SerializeField] Option option;
     [SerializeField] Exit exit;
 
+    public enum SelectStatus : int
+    {
+        GameStart=0,
+        Option=1,
+        Exit=2
+    }
 
-    //public CountEvent countevent = new CountEvent();
     public event Action<float> SelectEvent;
-    public event Action<float> DecisionEvent;
 
     public void GoBack()
     {
-        selectnum = (selectnum - 1 + _maxelement) % _maxelement;
+        selectnum = (selectnum - 1 + MAX_ELEMENT) % MAX_ELEMENT;
         SelectEvent(selectnum);
     }
     
     public void GoNext()
     {
-        selectnum = (++selectnum) % _maxelement;
+        selectnum = (++selectnum) % MAX_ELEMENT;
         SelectEvent(selectnum);
     }
 
@@ -32,13 +36,13 @@ public class TitleSceneModel : MonoBehaviour
     {
         switch (selectnum)
         {
-            case 0:
+            case (int)SelectStatus.GameStart:
                 gameStart.Select();
                 break;
-            case 1:
+            case (int)SelectStatus.Option:
                 option.Select();
                 break;
-            case 2:
+            case (int)SelectStatus.Exit:
                 exit.Select();
                 break;
         }
