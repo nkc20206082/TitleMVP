@@ -4,25 +4,39 @@ using UnityEngine;
 
 public class InputEvent : MonoBehaviour
 {
-    [SerializeField] TitleSceneModel titlemodel;
+    [SerializeField] TitleSceneModel Titlemodel;
+    [SerializeField] OptionModel Optionmodel;
     bool _getkeyflg = false;
+    bool _select = false;
+
     void Update()
     {
-        
+        if (!_select)
+        {
+            TitleMenuSelect();
+        }
+        else
+        {
+            OptionMenuSelected();
+        }
+    }
+
+    void TitleMenuSelect()
+    {
         float VerSelect = Input.GetAxisRaw("Vertical");
         switch (VerSelect)
         {
             case 1:
                 if (!_getkeyflg)
                 {
-                    titlemodel.GoBack();
+                    Titlemodel.GoBack();
                 }
                 KeyDown();
                 break;
             case -1:
                 if (!_getkeyflg)
                 {
-                    titlemodel.GoNext();
+                    Titlemodel.GoNext();
                 }
                 KeyDown();
                 break;
@@ -31,9 +45,19 @@ public class InputEvent : MonoBehaviour
                 break;
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            titlemodel.DecisionMenu();
+            Titlemodel.DecisionMenu();
+            _select = true;
+        }
+    }
+
+    void OptionMenuSelected()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Optionmodel.EscapeOption();
+            _select = false;
         }
     }
 

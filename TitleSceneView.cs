@@ -31,24 +31,24 @@ public class TitleSceneView : MonoBehaviour
         {
             if((int)selectnum == i)
             {
-                Opacity(_TitleImgs[i]);
+                IconOpacity(_TitleImgs[i]);
             }
             else
             {
-                Transparent(_TitleImgs[i]);
+                IconTransparent(_TitleImgs[i]);
             }
         }
 
     }
 
     //•s“§–¾
-    private void Opacity(Image image)
+    private void IconOpacity(Image image)
     {
         image.color = Color.white;
     }
 
     //“§–¾
-    private void Transparent(Image image)
+    private void IconTransparent(Image image)
     {
         image.color = Color.clear;
     }
