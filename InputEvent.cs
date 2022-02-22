@@ -1,13 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputEvent : MonoBehaviour
 {
-    [SerializeField] TitleSceneModel Titlemodel;
-    [SerializeField] OptionModel Optionmodel;
+    [SerializeField] TitleSceneModel _Titlemodel;
+    [SerializeField] OptionModel _Optionmodel;
     bool _getkeyflg = false;
     bool _select = false;
+
+
+    public enum VerOperation : int
+    {
+        UP=1,
+        DOWN=-1,
+        DEFAULT=0
+    }
+    
+    public enum HorrOperation : int
+    {
+        RIGHT=1,
+        LEFT=-1,
+        DEFAULT=0
+    }
+    
 
     void Update()
     {
@@ -17,7 +31,7 @@ public class InputEvent : MonoBehaviour
         }
         else
         {
-            OptionMenuSelected();
+            OptionMenuSelect();
         }
     }
 
@@ -26,38 +40,59 @@ public class InputEvent : MonoBehaviour
         float VerSelect = Input.GetAxisRaw("Vertical");
         switch (VerSelect)
         {
-            case 1:
+            case (int)VerOperation.UP:
                 if (!_getkeyflg)
                 {
-                    Titlemodel.GoBack();
+                    _Titlemodel.GoBack();
                 }
                 KeyDown();
                 break;
-            case -1:
+            case (int)VerOperation.DOWN:
                 if (!_getkeyflg)
                 {
-                    Titlemodel.GoNext();
+                    _Titlemodel.GoNext();
                 }
                 KeyDown();
                 break;
-            case 0:
+            case (int)VerOperation.DEFAULT:
                 KeyUp();
                 break;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Titlemodel.DecisionMenu();
+            _Titlemodel.DecisionMenu();
             _select = true;
         }
     }
 
-    void OptionMenuSelected()
+    void OptionMenuSelect()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        float VerSelect = Input.GetAxisRaw("Vertical");
+        switch (VerSelect)
         {
-            Optionmodel.EscapeOption();
-            _select = false;
+            case (int)VerOperation.UP:
+                if (!_getkeyflg)
+                {
+                    _Optionmodel.GoBack();
+                }
+                KeyDown();
+                break;
+            case (int)VerOperation.DOWN:
+                if (!_getkeyflg)
+                {
+                    _Optionmodel.GoNext();
+                }
+                KeyDown();
+                break;
+            case (int)VerOperation.DEFAULT:
+                KeyUp();
+                break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _select=_Optionmodel.DecisionMenu();
         }
     }
 

@@ -16,6 +16,6 @@ public class SEVolume : MonoBehaviour
     void Update()
     {
         m_AudioSource.volume = m_Slider.GetComponent<Slider>().normalizedValue;
-        Debug.Log(m_AudioSource.volume);
+        //Debug.Log(m_AudioSource.volume);
     }
 }
