@@ -5,7 +5,7 @@ public class TitleSceneView : MonoBehaviour
 {
     [SerializeField] Image[] _TitleImgs=new Image[3];
 
-    //0,1,2‚Ì‚Ç‚ê‚ª‘I‘ð‚³‚ê‚Ä‚¢‚é‚©
+    //‘I‘ð‚³‚ê‚Ä‚é‚à‚Ì
     public void SelectIcon(float selectnum)
     {
         //switch (selectnum)

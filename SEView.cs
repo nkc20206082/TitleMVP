@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BGMView : MonoBehaviour
+public class SEView : MonoBehaviour
 {
-    [SerializeField] Slider _BGMVolumeSlider;
-    
+    [SerializeField] Slider _SEVolumeSlider;
+
     //スライダーの位置変える
     public void Volume(float Volume)
     {
-        _BGMVolumeSlider.value = Volume;
+        _SEVolumeSlider.value = Volume;
     }
 }
