@@ -3,8 +3,10 @@ using System;
 
 public class SEModel : MonoBehaviour
 {
-    public float SEvolume = 0.5f;
-    private float _Changevolume = 0.25f;
+    public int DefaultVolume = 5;
+    public float _SEvolume = 0.5f;
+    private float _Changevolume = 0.1f;
+    private int _magnification = 10;
     [SerializeField] AudioSource _SEAudioSource;
 
     public event Action<float> VolumeUp;
@@ -13,34 +15,41 @@ public class SEModel : MonoBehaviour
     //ボリュームを初期値に
     void Start()
     {
-        _SEAudioSource.volume = SEvolume;
+        _SEAudioSource.volume = _SEvolume;
     }
 
     //ボリュームを上げる
     public void SEVoluemeUp()
     {
-        if (SEvolume < 1)
+        if (_SEvolume < 1)
         {
-            SEvolume += _Changevolume;
+            _SEvolume += _Changevolume;
+            ChangeVolume();
+            PlaySound();
+            VolumeUp(_SEvolume * _magnification);
         }
-        ChangeVolume();
-        VolumeUp(SEvolume);
     }
 
     //ボリュームを下げる
     public void SEVoluemeDown()
     {
-        if (SEvolume > 0)
+        if (_SEvolume > 0)
         {
-            SEvolume -= _Changevolume;
+            _SEvolume -= _Changevolume;
+            ChangeVolume();
+            PlaySound();
+            VolumeDown(_SEvolume * _magnification);
         }
-        ChangeVolume();
-        VolumeDown(SEvolume);
     }
 
     //ボリュームの変更
     void ChangeVolume()
     {
-        _SEAudioSource.volume = SEvolume;
+        _SEAudioSource.volume = _SEvolume;
+    }
+
+    void PlaySound()
+    {
+        _SEAudioSource.Play();
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class OptionView : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class OptionView : MonoBehaviour
     //不透明
     private void IconOpacity(Image image)
     {
-        image.color = Color.red;
+        image.color = Color.white;
     }
 
     //透明
@@ -37,7 +38,15 @@ public class OptionView : MonoBehaviour
     //オプションメニューを開く
     public void OptionMenuActive(bool isOpen)
     {
-        _OptionImgs.gameObject.SetActive(isOpen);
+        //Debug.Log(isOpen);
+        if (isOpen)
+        {
+            _OptionImgs.transform.DOScale(new Vector3(1, 1, 1), 0.5f);
+        }
+        else
+        {
+            _OptionImgs.transform.DOScale(new Vector3(0, 0, 0), 0.5f);
+        }
     }
 
 }

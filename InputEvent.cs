@@ -1,12 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class InputEvent : MonoBehaviour
 {
     [SerializeField] TitleSceneModel _Titlemodel;
     [SerializeField] OptionModel _Optionmodel;
+    [SerializeField] SoundModel _Soundmodel;
     [SerializeField] BGMModel _BGMmodel;
     [SerializeField] SEModel _SEmodel;
     bool _getkeyflg = false;
+    bool _selectinterval = false;
     int _Phasenum = 0;
     const int _PhaseChangenum= 1;
 
@@ -31,8 +34,9 @@ public class InputEvent : MonoBehaviour
     {
         TITLEPHASE = 0,
         OPTIONPHASE = 1,
-        BGMPHASE=2,
-        SEPHASE=3
+        SOUNDPHASE = 2,
+        BGMPHASE=3,
+        SEPHASE=4
     }
 
     //タイトル画面の要素
@@ -46,29 +50,40 @@ public class InputEvent : MonoBehaviour
     //オプションの要素
     public enum OptionMenu : int
     {
+        RETURN = 0,
+        VOLUME = 1,
+        CREDIT = 2
+    }
+
+    public enum SoundMenu : int
+    {
         BGM = 0,
-        SE = 1,
-        EXIT = 2
+        SE = 1
     }
     void Update()
     {
-        switch (_Phasenum)
+    //    Debug.Log(_Phasenum);
+        if (!_selectinterval)
         {
-            case (int)Phase.TITLEPHASE:
-                TitleMenuSelect();
-                break;
-            case (int)Phase.OPTIONPHASE:
-                OptionMenuSelect();
-                break;
-            case (int)Phase.BGMPHASE:
-                BGMOption();
-                break;
-            case (int)Phase.SEPHASE:
-                SEOption();
-                break;
+            switch (_Phasenum)
+            {
+                case (int)Phase.TITLEPHASE:
+                    TitleMenuSelect();
+                    break;
+                case (int)Phase.OPTIONPHASE:
+                    OptionMenuSelect();
+                    break;
+                case (int)Phase.SOUNDPHASE:
+                    SoundMenuSelect();
+                    break;
+                case (int)Phase.BGMPHASE:
+                    BGMOption();
+                    break;
+                case (int)Phase.SEPHASE:
+                    SEOption();
+                    break;
+            }
         }
-        Debug.Log(_Phasenum);
-
     }
 
     //タイトルの操作
@@ -108,6 +123,7 @@ public class InputEvent : MonoBehaviour
                 case (int)TitleMenu.CLOSE:
                     break;
             }
+            StartCoroutine("SelectInterval");
         }
     }
 
@@ -140,16 +156,61 @@ public class InputEvent : MonoBehaviour
         {
             switch (_Optionmodel.DecisionMenu())
             {
-                case (int)OptionMenu.BGM:
-                    _Phasenum += _PhaseChangenum+(int)OptionMenu.BGM;
-                    break;
-                case (int)OptionMenu.SE:
-                    _Phasenum += _PhaseChangenum + (int)OptionMenu.SE;
-                    break;
-                case (int)OptionMenu.EXIT:
+                case (int)OptionMenu.RETURN:
                     _Phasenum -= _PhaseChangenum;
+                    StartCoroutine("SelectInterval");
+                    break;
+                case (int)OptionMenu.VOLUME:
+                    _Phasenum+= _Phasenum;
+                    break;
+                case (int)OptionMenu.CREDIT:
                     break;
             }
+        }
+    }
+
+    void SoundMenuSelect()
+    {
+        float VerSelect = Input.GetAxisRaw("Vertical");
+        switch (VerSelect)
+        {
+            case (int)VerOperation.UP:
+                if (!_getkeyflg)
+                {
+                    _Soundmodel.GoBack();
+                }
+                KeyDown();
+                break;
+            case (int)VerOperation.DOWN:
+                if (!_getkeyflg)
+                {
+                    _Soundmodel.GoNext();
+                }
+                KeyDown();
+                break;
+            case (int)VerOperation.DEFAULT:
+                KeyUp();
+                break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //Debug.Log(_Soundmodel.DecisionMenu());
+            switch (_Soundmodel.DecisionMenu())
+            {
+                case (int)SoundMenu.BGM:
+                    _Phasenum += _PhaseChangenum + (int)SoundMenu.BGM;
+                    break;
+                case (int)SoundMenu.SE:
+                    _Phasenum += _PhaseChangenum + (int)SoundMenu.SE;
+                    break;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _Soundmodel.Escape();
+            _Phasenum -= _PhaseChangenum;
         }
     }
 
@@ -180,7 +241,7 @@ public class InputEvent : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _Phasenum = _PhaseChangenum + (int)OptionMenu.BGM;
+            _Phasenum -= _PhaseChangenum + (int)SoundMenu.BGM;
         }
     }
 
@@ -211,7 +272,7 @@ public class InputEvent : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _Phasenum =_PhaseChangenum + (int)OptionMenu.SE;
+            _Phasenum -=_PhaseChangenum + (int)SoundMenu.SE;
         }
     }
 
@@ -225,5 +286,12 @@ public class InputEvent : MonoBehaviour
     void KeyUp()
     {
         _getkeyflg = false;
+    }
+
+    IEnumerator SelectInterval()
+    {
+        _selectinterval = true;
+        yield return new WaitForSeconds(0.5f);
+        _selectinterval = false;
     }
 }

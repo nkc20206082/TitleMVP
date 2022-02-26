@@ -6,8 +6,10 @@ public class OptionModel : MonoBehaviour
     public int selectnum = 0;
     private const int _MAX_ELEMENT = 3;
 
-    //[SerializeField] BGMOperation _BGM;
-    //[SerializeField] Option _SE;
+
+    //[SerializeField] Return _Return;
+    [SerializeField] Volume _Volume;
+    //[SerializeField] Credit _Credit;
 
     public event Action<float> SelectEvent;
     public event Action<bool> OptionSelected;
@@ -15,9 +17,9 @@ public class OptionModel : MonoBehaviour
     //オプションの内容
     public enum SelectStatus : int
     {
-        BGM = 0,
-        SE = 1,
-        Exit = 2
+        RETURN = 0,
+        VOLUME = 1,
+        CREDIT = 2
     }
 
     //前の項目
@@ -34,14 +36,16 @@ public class OptionModel : MonoBehaviour
         SelectEvent(selectnum);
     }
 
-    //オプションが選ばれた時
+
     public void Selected()
     {
+        selectnum = 0;
+        SelectEvent(selectnum);
         OptionSelected(true);
     }
 
     //オプションを閉じる
-    public void EscapeOption()
+    public void Escape()
     {
         OptionSelected(false);
     }
@@ -51,20 +55,18 @@ public class OptionModel : MonoBehaviour
     {
         switch (selectnum)
         {
-            case (int)SelectStatus.BGM:
-                //_BGM.Select();
-                return (int)SelectStatus.BGM;
+            case (int)SelectStatus.RETURN:
+                //_Return.Select();
+                Escape();
+                return (int)SelectStatus.RETURN;
 
-            case (int)SelectStatus.SE:
-                //_Option.Select();
-                return (int)SelectStatus.SE;
+            case (int)SelectStatus.VOLUME:
+                _Volume.Select();
+                return (int)SelectStatus.VOLUME;
 
-            case (int)SelectStatus.Exit:
-                //_Esc.Select();
-                selectnum = 0;
-                SelectEvent(selectnum);
-                EscapeOption();
-                return (int)SelectStatus.Exit;
+            case (int)SelectStatus.CREDIT:
+                //_Credit.Select();
+                return (int)SelectStatus.CREDIT;
         }
         return default;
     }

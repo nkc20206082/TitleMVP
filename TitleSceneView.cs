@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class TitleSceneView : MonoBehaviour
 {
@@ -44,13 +45,14 @@ public class TitleSceneView : MonoBehaviour
     //•s“§–¾
     private void IconOpacity(Image image)
     {
-        image.color = Color.white;
+        image.color = Color.red;
+        image.DOFade(0.0f, 1f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
     }
 
     //“§–¾
     private void IconTransparent(Image image)
     {
-        image.color = Color.clear;
+        image.DOKill();
+        image.color=Color.clear;
     }
-
 }

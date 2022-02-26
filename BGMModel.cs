@@ -3,8 +3,10 @@ using System;
 
 public class BGMModel : MonoBehaviour
 {
-    public float BGMvolume=0.5f;
-    private float _Changevolume=0.25f;
+    public int DefaultVolume = 5;
+    float _BGMvolume=0.5f;
+    private float _Changevolume=0.1f; 
+    private int _magnification = 10;
     [SerializeField] AudioSource _BGMAudioSource;
 
     public event Action<float> VolumeUp;
@@ -13,34 +15,34 @@ public class BGMModel : MonoBehaviour
     //ボリュームを初期値に
     void Start()
     {
-        _BGMAudioSource.volume = BGMvolume;
+        _BGMAudioSource.volume = _BGMvolume;
     }
 
     //ボリュームを上げる
     public void BGMVoluemeUp()
     {
-        if (BGMvolume<1)
+        if (_BGMvolume < 1)
         {
-            BGMvolume += _Changevolume;
+            _BGMvolume += _Changevolume;
         }
         ChangeVolume();
-        VolumeUp(BGMvolume);
+        VolumeUp(_BGMvolume * _magnification);
     }
 
     //ボリュームを下げる
     public void BGMVoluemeDown()
     {
-        if (BGMvolume > 0)
+        if (_BGMvolume > 0)
         {
-            BGMvolume -= _Changevolume;
+            _BGMvolume -= _Changevolume;
         }
         ChangeVolume();
-        VolumeDown(BGMvolume);
+        VolumeDown(_BGMvolume * _magnification);
     }
 
     //ボリュームの変更
     void ChangeVolume()
     {
-        _BGMAudioSource.volume = BGMvolume;
+        _BGMAudioSource.volume = _BGMvolume;
     }
 }
