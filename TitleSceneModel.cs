@@ -11,6 +11,8 @@ public class TitleSceneModel : MonoBehaviour
     [SerializeField] Exit _Exit;
 
     public event Action<float> SelectEvent;
+    //public event Action<float> SelectSEEvent;
+
 
     //タイトルの要素
     public enum SelectStatus : int
@@ -25,6 +27,7 @@ public class TitleSceneModel : MonoBehaviour
     {
         selectnum = (selectnum - 1 + _MAX_ELEMENT) % _MAX_ELEMENT;
         SelectEvent(selectnum);
+        //SelectSEEvent(selectnum);
     }
     
     //次の項目
@@ -32,6 +35,7 @@ public class TitleSceneModel : MonoBehaviour
     {
         selectnum = (++selectnum) % _MAX_ELEMENT;
         SelectEvent(selectnum);
+        //SelectSEEvent(selectnum);
     }
 
     //決定

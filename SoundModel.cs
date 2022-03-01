@@ -4,17 +4,20 @@ using System;
 public class SoundModel : MonoBehaviour
 {
     public int selectnum = 0;
-    private const int _MAX_ELEMENT = 2;
+    private const int _MAX_ELEMENT = 3;
 
 
     public event Action<float> SelectEvent;
+    //public event Action<float> SelectSEEvent;
+    public event Action<int> DecisionSEEvent;
     public event Action<bool> SoundSelected;
 
     //オプションの内容
     public enum SelectStatus : int
     {
         BGM = 0,
-        SE = 1
+        SE = 1,
+        RETURN=2
     }
 
     //前の項目
@@ -22,6 +25,7 @@ public class SoundModel : MonoBehaviour
     {
         selectnum = (selectnum - 1 + _MAX_ELEMENT) % _MAX_ELEMENT;
         SelectEvent(selectnum);
+        //SelectSEEvent(selectnum);
     }
 
     //次の項目
@@ -29,9 +33,10 @@ public class SoundModel : MonoBehaviour
     {
         selectnum = (++selectnum) % _MAX_ELEMENT;
         SelectEvent(selectnum);
+        //SelectSEEvent(selectnum);
     }
 
-    //オプションが選ばれた時
+    //ボリュームが選ばれた時
     public void Selected()
     {
         selectnum = 0;
@@ -50,12 +55,14 @@ public class SoundModel : MonoBehaviour
         switch (selectnum)
         {
             case (int)SelectStatus.BGM:
-                //_BGM.Select();
+                DecisionSEEvent((int)SelectStatus.BGM);
                 return (int)SelectStatus.BGM;
-
             case (int)SelectStatus.SE:
-                //_Option.Select();
+                DecisionSEEvent((int)SelectStatus.BGM);
                 return (int)SelectStatus.SE;
+            case (int)SelectStatus.RETURN:
+                Escape();
+                return (int)SelectStatus.RETURN;
         }
         return default;
     }

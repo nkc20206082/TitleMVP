@@ -22,6 +22,11 @@ public class SEView : MonoBehaviour
         }
     }
 
+    //public void SelectSE(float Volume)
+    //{
+    //    SEManager.AudioPlayOneShot("セレクト1", 0);
+    //}
+
     //不透明
     private void IconOpacity(Image image)
     {
@@ -33,4 +38,5 @@ public class SEView : MonoBehaviour
     {
         image.color = Color.clear;
     }
+
 }

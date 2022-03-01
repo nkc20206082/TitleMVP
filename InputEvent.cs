@@ -6,12 +6,17 @@ public class InputEvent : MonoBehaviour
     [SerializeField] TitleSceneModel _Titlemodel;
     [SerializeField] OptionModel _Optionmodel;
     [SerializeField] SoundModel _Soundmodel;
+    [SerializeField] CreditModel _Creditmodel;
     [SerializeField] BGMModel _BGMmodel;
     [SerializeField] SEModel _SEmodel;
+    [SerializeField] SelectSEModel _SelectSEmodel;
+    //[SerializeField] DecisionSEModel _DecisionSEmodel;
+
     bool _getkeyflg = false;
     bool _selectinterval = false;
     int _Phasenum = 0;
     const int _PhaseChangenum= 1;
+    const int _PhaseSoundnum= 10;
 
     //ècëÄçÏï˚å¸
     public enum VerOperation : int
@@ -35,8 +40,9 @@ public class InputEvent : MonoBehaviour
         TITLEPHASE = 0,
         OPTIONPHASE = 1,
         SOUNDPHASE = 2,
-        BGMPHASE=3,
-        SEPHASE=4
+        CREDITPHASE = 3,
+        BGMPHASE= SOUNDPHASE + _PhaseSoundnum,
+        SEPHASE= 1+SOUNDPHASE + _PhaseSoundnum
     }
 
     //É^ÉCÉgÉãâÊñ ÇÃóvëf
@@ -58,11 +64,13 @@ public class InputEvent : MonoBehaviour
     public enum SoundMenu : int
     {
         BGM = 0,
-        SE = 1
+        SE = 1,
+        RETURN=2
     }
+
     void Update()
     {
-    //    Debug.Log(_Phasenum);
+        //Debug.Log(_Phasenum);
         if (!_selectinterval)
         {
             switch (_Phasenum)
@@ -75,6 +83,9 @@ public class InputEvent : MonoBehaviour
                     break;
                 case (int)Phase.SOUNDPHASE:
                     SoundMenuSelect();
+                    break;
+                case (int)Phase.CREDITPHASE:
+                    CreditSelect();
                     break;
                 case (int)Phase.BGMPHASE:
                     BGMOption();
@@ -96,6 +107,7 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Titlemodel.GoBack();
+                    _SelectSEmodel.GoBack();
                 }
                 KeyDown();
                 break;
@@ -103,6 +115,7 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Titlemodel.GoNext();
+                    _SelectSEmodel.GoNext();
                 }
                 KeyDown();
                 break;
@@ -137,6 +150,7 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Optionmodel.GoBack();
+                    _SelectSEmodel.GoBack();
                 }
                 KeyDown();
                 break;
@@ -144,6 +158,7 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Optionmodel.GoNext();
+                    _SelectSEmodel.GoNext();
                 }
                 KeyDown();
                 break;
@@ -161,9 +176,10 @@ public class InputEvent : MonoBehaviour
                     StartCoroutine("SelectInterval");
                     break;
                 case (int)OptionMenu.VOLUME:
-                    _Phasenum+= _Phasenum;
+                    _Phasenum+= (int)OptionMenu.VOLUME;
                     break;
                 case (int)OptionMenu.CREDIT:
+                    _Phasenum +=  (int)OptionMenu.CREDIT;
                     break;
             }
         }
@@ -178,6 +194,7 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Soundmodel.GoBack();
+                    _SelectSEmodel.GoBack();
                 }
                 KeyDown();
                 break;
@@ -185,6 +202,7 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Soundmodel.GoNext();
+                    _SelectSEmodel.GoNext();
                 }
                 KeyDown();
                 break;
@@ -199,18 +217,25 @@ public class InputEvent : MonoBehaviour
             switch (_Soundmodel.DecisionMenu())
             {
                 case (int)SoundMenu.BGM:
-                    _Phasenum += _PhaseChangenum + (int)SoundMenu.BGM;
+                    _Phasenum +=  _PhaseSoundnum+(int)SoundMenu.BGM;
                     break;
                 case (int)SoundMenu.SE:
-                    _Phasenum += _PhaseChangenum + (int)SoundMenu.SE;
+                    _Phasenum += _PhaseSoundnum  + (int)SoundMenu.SE;
+                    break;
+                case (int)SoundMenu.RETURN:
+                    _Phasenum -= _PhaseChangenum;
                     break;
             }
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+
+    void CreditSelect()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _Soundmodel.Escape();
-            _Phasenum -= _PhaseChangenum;
+            _Creditmodel.DecisionMenu();
+            _Phasenum -= (int)OptionMenu.CREDIT;
         }
     }
 
@@ -241,7 +266,7 @@ public class InputEvent : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _Phasenum -= _PhaseChangenum + (int)SoundMenu.BGM;
+            _Phasenum -= _PhaseSoundnum+(int)SoundMenu.BGM;
         }
     }
 
@@ -255,6 +280,7 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _SEmodel.SEVoluemeUp();
+                    _SelectSEmodel.SEVoluemeUp();
                 }
                 KeyDown();
                 break;
@@ -262,6 +288,7 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _SEmodel.SEVoluemeDown();
+                    _SelectSEmodel.SEVoluemeDown();
                 }
                 KeyDown();
                 break;
@@ -272,7 +299,7 @@ public class InputEvent : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _Phasenum -=_PhaseChangenum + (int)SoundMenu.SE;
+            _Phasenum -= _PhaseSoundnum  + (int)SoundMenu.SE;
         }
     }
 

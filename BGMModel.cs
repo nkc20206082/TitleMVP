@@ -9,6 +9,7 @@ public class BGMModel : MonoBehaviour
     private int _magnification = 10;
     [SerializeField] AudioSource _BGMAudioSource;
 
+    //public event Action<float> SelectSEvent;
     public event Action<float> VolumeUp;
     public event Action<float> VolumeDown;
 
@@ -27,6 +28,7 @@ public class BGMModel : MonoBehaviour
         }
         ChangeVolume();
         VolumeUp(_BGMvolume * _magnification);
+        //SelectSEEvent(_BGMvolume);
     }
 
     //ボリュームを下げる
@@ -38,6 +40,7 @@ public class BGMModel : MonoBehaviour
         }
         ChangeVolume();
         VolumeDown(_BGMvolume * _magnification);
+        //SelectSEEvent(_BGMvolume);
     }
 
     //ボリュームの変更

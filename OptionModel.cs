@@ -7,11 +7,12 @@ public class OptionModel : MonoBehaviour
     private const int _MAX_ELEMENT = 3;
 
 
-    //[SerializeField] Return _Return;
+    [SerializeField] Return _Return;
     [SerializeField] Volume _Volume;
-    //[SerializeField] Credit _Credit;
+    [SerializeField] Credit _Credit;
 
     public event Action<float> SelectEvent;
+    //public event Action<float> SelectSEEvent;
     public event Action<bool> OptionSelected;
 
     //オプションの内容
@@ -27,6 +28,7 @@ public class OptionModel : MonoBehaviour
     {
         selectnum = (selectnum - 1 + _MAX_ELEMENT) % _MAX_ELEMENT;
         SelectEvent(selectnum);
+        //SelectSEEvent(selectnum);
     }
 
     //次の項目
@@ -34,6 +36,7 @@ public class OptionModel : MonoBehaviour
     {
         selectnum = (++selectnum) % _MAX_ELEMENT;
         SelectEvent(selectnum);
+        //SelectSEEvent(selectnum);
     }
 
 
@@ -56,8 +59,7 @@ public class OptionModel : MonoBehaviour
         switch (selectnum)
         {
             case (int)SelectStatus.RETURN:
-                //_Return.Select();
-                Escape();
+                _Return.Select();
                 return (int)SelectStatus.RETURN;
 
             case (int)SelectStatus.VOLUME:
@@ -65,7 +67,7 @@ public class OptionModel : MonoBehaviour
                 return (int)SelectStatus.VOLUME;
 
             case (int)SelectStatus.CREDIT:
-                //_Credit.Select();
+                _Credit.Select();
                 return (int)SelectStatus.CREDIT;
         }
         return default;
