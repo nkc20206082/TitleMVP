@@ -4,9 +4,8 @@ using System;
 public class BGMOptionModel : MonoBehaviour
 {
     public int DefaultVolume = 5;
-    private float _BGMvolume=0.5f;
-    private float _Changevolume=0.1f; 
-    private int _magnification = 10;
+    private float _BGMvolume=5f;
+    private float _Changevolume=1f; 
     [SerializeField]private AudioSource _BGMAudioSource;
 
     public event Action<float> SelectSEEvent;
@@ -22,13 +21,13 @@ public class BGMOptionModel : MonoBehaviour
     //ボリュームを上げる
     public void BGMVoluemeUp()
     {
-        if (_BGMvolume < 1)
+        if (_BGMvolume < 10)
         {
             _BGMvolume += _Changevolume;
-        }
         ChangeVolume();
-        VolumeUp(_BGMvolume * _magnification);
+        VolumeUp(_BGMvolume);
         SelectSEEvent(_BGMvolume);
+        }
     }
 
     //ボリュームを下げる
@@ -37,10 +36,10 @@ public class BGMOptionModel : MonoBehaviour
         if (_BGMvolume > 0)
         {
             _BGMvolume -= _Changevolume;
-        }
         ChangeVolume();
-        VolumeDown(_BGMvolume * _magnification);
+        VolumeDown(_BGMvolume);
         SelectSEEvent(_BGMvolume);
+        }
     }
 
     //ボリュームの変更

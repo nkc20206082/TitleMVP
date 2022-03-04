@@ -22,9 +22,14 @@ public class BGMOptionView : MonoBehaviour
         }
     }
 
-    public void SelectSE(float Volume)
+    public void SelectSE(float select)
     {
         SEManager.AudioPlayOneShot("セレクト1", 0);
+    }
+
+    public void TestBGM(float Volume)
+    {
+        Debug.Log(Volume);
     }
 
     //不透明

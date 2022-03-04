@@ -49,6 +49,8 @@ public class TitleScenePresenter : MonoBehaviour
         //===========BGM Event==================
         _BGMOptionModel.VolumeUp += _BGMOptionView.Volume;
         _BGMOptionModel.VolumeDown += _BGMOptionView.Volume;
+        _BGMOptionModel.VolumeUp += _BGMOptionView.TestBGM;
+        _BGMOptionModel.VolumeDown += _BGMOptionView.TestBGM;
         _BGMOptionModel.SelectSEEvent += _BGMOptionView.SelectSE;
 
         //============SE Event==================
