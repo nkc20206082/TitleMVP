@@ -6,12 +6,12 @@ public class TitleSceneModel : MonoBehaviour
     public int selectnum = 0;
     private const int _MAX_ELEMENT = 3;
 
-    [SerializeField] GameStart _GameStart;
-    [SerializeField] Option _Option;
-    [SerializeField] Exit _Exit;
+    [SerializeField]private GameStartUISelect _GameStartUISelect;
+    [SerializeField] private OptionUISelect _OptionUISelect;
+    [SerializeField] private ExitUISelect _ExitUISelect;
 
     public event Action<float> SelectEvent;
-    //public event Action<float> SelectSEEvent;
+    public event Action<float> SelectSEEvent;
 
 
     //タイトルの要素
@@ -27,7 +27,7 @@ public class TitleSceneModel : MonoBehaviour
     {
         selectnum = (selectnum - 1 + _MAX_ELEMENT) % _MAX_ELEMENT;
         SelectEvent(selectnum);
-        //SelectSEEvent(selectnum);
+        SelectSEEvent(selectnum);
     }
     
     //次の項目
@@ -35,7 +35,7 @@ public class TitleSceneModel : MonoBehaviour
     {
         selectnum = (++selectnum) % _MAX_ELEMENT;
         SelectEvent(selectnum);
-        //SelectSEEvent(selectnum);
+        SelectSEEvent(selectnum);
     }
 
     //決定
@@ -44,13 +44,13 @@ public class TitleSceneModel : MonoBehaviour
         switch (selectnum)
         {
             case (int)SelectStatus.GameStart:
-                _GameStart.Select();
+                _GameStartUISelect.Select();
                 break;
             case (int)SelectStatus.Option:
-                _Option.Select();
+                _OptionUISelect.Select();
                 return (int)SelectStatus.Option;
             case (int)SelectStatus.Exit:
-                _Exit.Select();
+                _ExitUISelect.Select();
                 break;
         }
         return default;

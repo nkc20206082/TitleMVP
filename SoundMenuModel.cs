@@ -1,26 +1,22 @@
 using UnityEngine;
 using System;
 
-public class OptionModel : MonoBehaviour
+public class SoundMenuModel : MonoBehaviour
 {
     public int selectnum = 0;
     private const int _MAX_ELEMENT = 3;
 
 
-    [SerializeField] private OptionReturn _optionReturn;
-    [SerializeField] private VolumeSelect _VolumeSelect;
-    [SerializeField] private CreditUISelect _CreditUISelect;
-
-    public event Action<float> SelectSEEvent;
     public event Action<float> SelectEvent;
-    public event Action<bool> OptionSelected;
+    public event Action<float> SelectSEEvent;
+    public event Action<bool> SoundSelected;
 
     //オプションの内容
     public enum SelectStatus : int
     {
-        RETURN = 0,
-        VOLUME = 1,
-        CREDIT = 2
+        BGM = 0,
+        SE = 1,
+        RETURN=2
     }
 
     //前の項目
@@ -39,18 +35,17 @@ public class OptionModel : MonoBehaviour
         SelectSEEvent(selectnum);
     }
 
-
+    //ボリュームが選ばれた時
     public void Selected()
     {
         selectnum = 0;
         SelectEvent(selectnum);
-        OptionSelected(true);
+        SoundSelected(true);
     }
 
-    //オプションを閉じる
     public void Escape()
     {
-        OptionSelected(false);
+        SoundSelected(false);
     }
 
     //決定時処理
@@ -58,17 +53,15 @@ public class OptionModel : MonoBehaviour
     {
         switch (selectnum)
         {
+            case (int)SelectStatus.BGM:
+                //DecisionSEEvent((int)SelectStatus.BGM);
+                return (int)SelectStatus.BGM;
+            case (int)SelectStatus.SE:
+                //DecisionSEEvent((int)SelectStatus.SE);
+                return (int)SelectStatus.SE;
             case (int)SelectStatus.RETURN:
-                _optionReturn.Select();
+                Escape();
                 return (int)SelectStatus.RETURN;
-
-            case (int)SelectStatus.VOLUME:
-                _VolumeSelect.Select();
-                return (int)SelectStatus.VOLUME;
-
-            case (int)SelectStatus.CREDIT:
-                _CreditUISelect.Select();
-                return (int)SelectStatus.CREDIT;
         }
         return default;
     }

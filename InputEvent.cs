@@ -5,12 +5,10 @@ public class InputEvent : MonoBehaviour
 {
     [SerializeField] TitleSceneModel _Titlemodel;
     [SerializeField] OptionModel _Optionmodel;
-    [SerializeField] SoundModel _Soundmodel;
+    [SerializeField] SoundMenuModel _SoundMenumodel;
     [SerializeField] CreditModel _Creditmodel;
-    [SerializeField] BGMModel _BGMmodel;
-    [SerializeField] SEModel _SEmodel;
-    [SerializeField] SelectSEModel _SelectSEmodel;
-    //[SerializeField] DecisionSEModel _DecisionSEmodel;
+    [SerializeField] BGMOptionModel _BGMmodel;
+    [SerializeField] SEOptionModel _SEmodel;
 
     bool _getkeyflg = false;
     bool _selectinterval = false;
@@ -107,7 +105,6 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Titlemodel.GoBack();
-                    _SelectSEmodel.GoBack();
                 }
                 KeyDown();
                 break;
@@ -115,7 +112,6 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Titlemodel.GoNext();
-                    _SelectSEmodel.GoNext();
                 }
                 KeyDown();
                 break;
@@ -150,7 +146,6 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Optionmodel.GoBack();
-                    _SelectSEmodel.GoBack();
                 }
                 KeyDown();
                 break;
@@ -158,7 +153,6 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _Optionmodel.GoNext();
-                    _SelectSEmodel.GoNext();
                 }
                 KeyDown();
                 break;
@@ -193,16 +187,14 @@ public class InputEvent : MonoBehaviour
             case (int)VerOperation.UP:
                 if (!_getkeyflg)
                 {
-                    _Soundmodel.GoBack();
-                    _SelectSEmodel.GoBack();
+                    _SoundMenumodel.GoBack();
                 }
                 KeyDown();
                 break;
             case (int)VerOperation.DOWN:
                 if (!_getkeyflg)
                 {
-                    _Soundmodel.GoNext();
-                    _SelectSEmodel.GoNext();
+                    _SoundMenumodel.GoNext();
                 }
                 KeyDown();
                 break;
@@ -214,7 +206,7 @@ public class InputEvent : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //Debug.Log(_Soundmodel.DecisionMenu());
-            switch (_Soundmodel.DecisionMenu())
+            switch (_SoundMenumodel.DecisionMenu())
             {
                 case (int)SoundMenu.BGM:
                     _Phasenum +=  _PhaseSoundnum+(int)SoundMenu.BGM;
@@ -280,7 +272,6 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _SEmodel.SEVoluemeUp();
-                    _SelectSEmodel.SEVoluemeUp();
                 }
                 KeyDown();
                 break;
@@ -288,7 +279,6 @@ public class InputEvent : MonoBehaviour
                 if (!_getkeyflg)
                 {
                     _SEmodel.SEVoluemeDown();
-                    _SelectSEmodel.SEVoluemeDown();
                 }
                 KeyDown();
                 break;

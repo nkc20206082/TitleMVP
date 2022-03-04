@@ -4,30 +4,30 @@ using DG.Tweening;
 
 public class OptionView : MonoBehaviour
 {
-    [SerializeField] Image[] _OptionMenuImgs = new Image[3];
-    [SerializeField] Image _OptionPanel;
-    [SerializeField] Image _OptionImgs;
+    [SerializeField] private Image[] _optionMenuImgs = new Image[3];
+    [SerializeField] private Image _optionPanel;
+    [SerializeField] private Image _optionImgs;
 
     //選ばれているか、いないか
     public void OptionSelectIcon(float selectnum)
     {
-        for (int i = 0; i < _OptionMenuImgs.Length; i++)
+        for (int i = 0; i < _optionMenuImgs.Length; i++)
         {
             if ((int)selectnum == i)
             {
-                IconOpacity(_OptionMenuImgs[i]);
+                IconOpacity(_optionMenuImgs[i]);
             }
             else
             {
-                IconTransparent(_OptionMenuImgs[i]);
+                IconTransparent(_optionMenuImgs[i]);
             }
         }
     }
 
-    //public void SelectSE(float selectnum)
-    //{
-    //    SEManager.AudioPlayOneShot("セレクト1", 0);
-    //}
+    public void SelectSE(float selectnum)
+    {
+        SEManager.AudioPlayOneShot("セレクト1", 0);
+    }
 
     //不透明
     private void IconOpacity(Image image)
@@ -44,18 +44,19 @@ public class OptionView : MonoBehaviour
     //オプションメニューを開く
     public void OptionMenuActive(bool isOpen)
     {
-        //Debug.Log(isOpen);
         if (isOpen)
         {
             DecisionSE();
-            _OptionPanel.DOFade(0.7F, 0.2f);
-            _OptionImgs.transform.DOScale(new Vector3(1, 1, 1), 0.2f);
+            _optionPanel.DOFade(0.7f, 0.2f);
+            _optionImgs.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), 0.2f);
         }
         else
         {
+            Debug.Log(isOpen);
+
             ReturnSE();
-            _OptionImgs.transform.DOScale(new Vector3(0, 0, 0), 0.2f);
-            _OptionPanel.DOFade(0.0F, 0.2f);
+            _optionImgs.transform.DOScale(new Vector3(0.0f, 0.0f, 0.0f), 0.2f);
+            _optionPanel.DOFade(0.0f, 0.2f);
         }
     }
 

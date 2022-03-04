@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CreditView : MonoBehaviour
 {
-    [SerializeField] GameObject _CreditImage;
+    [SerializeField]private GameObject _CreditImageObj;
 
 
     public void DecisionSE(int select)
@@ -13,7 +13,7 @@ public class CreditView : MonoBehaviour
     public void CreditMenuActive(bool isOpen)
     {
         //Debug.Log(isOpen);
-        _CreditImage.SetActive(isOpen);
+        _CreditImageObj.SetActive(isOpen);
 
         if (!isOpen)
         {
